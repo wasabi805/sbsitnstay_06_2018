@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+//For routing
+const users = require('./routes/api/users');
+const siteArea = require('./routes/api/site-area');
+
+
 //DB config
 const db = require('./config/keys').mongoURI;
 
@@ -11,6 +16,12 @@ mongoose.connect(db).then(()=>console.log('MongoDB Connected!')).catch(err=>cons
 
 
 app.get('/', (req,res)=>res.send('Hello'));
+
+
+//Use routes : defines full route
+app.use('/api/users', users);
+app.use('/api/site-area', siteArea);
+
 
 const port = process.env.PORT || 5000;
 
