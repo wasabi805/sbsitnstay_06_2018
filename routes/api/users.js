@@ -14,10 +14,10 @@ const User = require('../../models/User');
 router.get('/test', (req,res)=>res.json({msg: ' /routes/api/users/test is working'}));
 
 
-//  -----   @prefix routes/api/users -----
+//  -----   @prefix routes/api/register -----
 
-//@route    Get api/users/test
-//@desc     used to test routes
+//@route    Get api/users/register
+//@desc     used to register an Admin
 //@access   PUBLIC
 
 router.post('/register', (req,res)=>{
@@ -47,7 +47,34 @@ router.post('/register', (req,res)=>{
         })
 });
 
+//  -----   @prefix routes/api/login -----
 
+//@route    Get api/users/login
+//@desc     used to register an Admin
+//@access   PUBLIC
+router.post('/login', (req,res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+        //find user by email
+    User.findOne({email: email}).then(user => {
+        if(!user){
+            return res.staus(404).json({email: 'User not found'})
+        }
+        //check pw : user.password ==> hashed pw in db
+        bcrypt.compare(password, user.password)
+            .then(isMatch => {
+                if(isMatch){
+                    res.json({msg: 'Success, email works!'})
+                }
+                else{
+                    return res.status(400).json({password: 'Password incorrect'});
+                }
+            })
+
+
+    })
+});
 
 
 
