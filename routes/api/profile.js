@@ -20,7 +20,6 @@ router.get('/test', (req,res)=>res.json({msg: ' /routes/api/profile/test is work
 //@desc     Gets the current users profile
 //@access   PRIVATE
 
-
 //                                    'jwt' comes from config/passport
 router.get('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
     //IMPORTANT! recall upon login success we received a token: that token inserted the user into req.user
@@ -32,7 +31,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
         .populate({
             model: 'users',
             path: 'user',
-            select: ['firstName', 'lastName']
+            select: ['firstName', 'lastName', 'email', 'phone']
         })
         .then(profile => {
         //check to see if a profile was sent back with the callback
@@ -45,6 +44,34 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
         res.json(profile);
 
     }).catch(err => res.status(404).json(err));
+});
+
+
+//  -----   @prefix routes/api/profile -----
+
+//@route    GET api/profile/handle/:handle
+//@desc     Retrieve user profile by handle
+//@access   PUBLIC
+
+router.get('/handle/:handle', (req,res)=>{
+
+    const {errors} = {};
+
+    Profile.findOne({handle: req.params.handle})
+        .populate({
+            model: 'users',
+            path: 'user',
+            select: ['firstName', 'lastName', 'email', 'phone']
+    }).then(profile =>{
+        //if no profile found
+        if(!profile){
+            errors.noprofile = "This user hasn't set up a profile";
+            res.status(404).json(errors);
+        }
+
+        res.json(profile);
+    })
+        .catch(err=> res.status(404).json(err))
 });
 
 
