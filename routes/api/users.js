@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const passport = require('passport');
 
 const User = require('../../models/User');
 
@@ -16,7 +17,7 @@ const User = require('../../models/User');
 router.get('/test', (req,res)=>res.json({msg: ' /routes/api/users/test is working'}));
 
 
-//  -----   @prefix routes/api/register -----
+//  -----   @prefix routes/api/users -----
 
 //@route    Get api/users/register
 //@desc     used to register an Admin
@@ -34,6 +35,7 @@ router.post('/register', (req,res)=>{
                 const newUser = new User({
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
+                    phone: req.body.phone,
                     email: req.body.email,
                     password: req.body.password
                 });
@@ -49,7 +51,7 @@ router.post('/register', (req,res)=>{
         })
 });
 
-//  -----   @prefix routes/api/login -----
+//  -----   @prefix routes/api/users -----
 
 //@route    Get api/users/login
 //@desc     used to register an Admin
@@ -61,7 +63,7 @@ router.post('/login', (req,res) => {
         //find user by email
     User.findOne({email: email}).then(user => {
         if(!user){
-            return res.staus(404).json({email: 'User not found'})
+            return res.status(404).json({email: 'User not found'})
         }
         //check pw : user.password ==> hashed pw in db
         bcrypt.compare(password, user.password)
@@ -94,6 +96,24 @@ router.post('/login', (req,res) => {
             })
 
 
+    })
+});
+
+//  -----   @prefix routes/api/users -----
+
+//@route    Get api/users/current
+//@desc     route returns current user
+//@access   PRIVATE
+
+router.get('/current', passport.authenticate('jwt', {session: false}), (req,res)=>{
+    // res.json(req.user) // remember, if auth @login is successful, the user data is in the req
+    //so we don't send the admin pw (like in the line above), we'll make the response omit the pw
+    res.json({
+        id: req.user.id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        phone: req.user.phone,
+        email: req.user.email
     })
 });
 
