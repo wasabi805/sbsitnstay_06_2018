@@ -49,6 +49,33 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
 
 //  -----   @prefix routes/api/profile -----
 
+//@route    GET api/profile/all
+//@desc     Retrieve ALL users profiles
+//@access   PUBLIC
+
+router.get('/all', (req,res)=>{
+
+    const {errors}={};
+
+    Profile.find()
+        .populate({
+            model: 'users',
+            path: 'user',
+            select: ['firstName', 'lastName', 'email', 'phone']
+    })
+        .then(profiles => {
+            if(!profiles){
+                errors.noprofile = 'There are no profiles';
+                return res.status(404).json(errors)
+            }
+            res.json(profiles)
+        })
+        .catch()
+});
+
+
+//  -----   @prefix routes/api/profile -----
+
 //@route    GET api/profile/handle/:handle
 //@desc     Retrieve user profile by handle
 //@access   PUBLIC
@@ -71,7 +98,8 @@ router.get('/handle/:handle', (req,res)=>{
 
         res.json(profile);
     })
-        .catch(err=> res.status(404).json(err))
+        .catch(err=> res.status(404)
+            .json({profile: 'There are no profiles  : frm profile.js ln 102'} ))
 });
 
 
@@ -99,7 +127,8 @@ router.get('/user/:user_id', (req,res)=>{
 
         res.json(profile);
     })
-        .catch(err=> res.status(404).json(err))
+        .catch(err=> res.status(404)
+            .json({profile: 'There is no profile for this user : frm profile.js'} ))
 });
 
 
