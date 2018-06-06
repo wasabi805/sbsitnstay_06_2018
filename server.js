@@ -10,6 +10,7 @@ const app = express();
 //For routing
 const users = require('./routes/api/users');
 const siteArea = require('./routes/api/site-area');
+const profile = require('./routes/api/profile');
 
 //DB config
 const db = require('./config/keys').mongoURI;
@@ -32,6 +33,7 @@ require('./config/passport')(passport);
 //Use routes : defines full route
 app.use('/api/users', users);
 app.use('/api/site-area', siteArea);
+app.use('/api/profile', profile);
 
 
 const port = process.env.PORT || 5000;

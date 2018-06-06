@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 //Create Schema
 const LeadSchema = new Schema({
 
-    user :{
+    profile :{
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'profiles'
     },
 
     client : [
