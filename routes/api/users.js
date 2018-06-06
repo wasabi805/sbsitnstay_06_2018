@@ -5,6 +5,12 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 
+//  -----   Load Input Validation   -----
+
+// const validateRegisterInput = require('../../validation/register');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+
 const User = require('../../models/User');
 
 
@@ -24,16 +30,17 @@ router.get('/test', (req,res)=>res.json({msg: ' /routes/api/users/test is workin
 //@access   PUBLIC
 
 router.post('/register', (req,res)=>{
-    //Load Input Validation
-    const validateRegisterInput = require('../../validation/register');
 
+
+    //----- Validation  -----
     //destruc the return obj from the validateRegisterInput imported from above : pass in req.body to validate form
     const {errors, isValid} = validateRegisterInput(req.body);
-
     //check for errors : if errors isValid will == false : errors obj will contain the error
     if(!isValid){
         return res.status(400).json(errors)
     }
+    //-----             -----
+
 
     User.findOne({email: req.body.email})
         .then(user => {
@@ -70,13 +77,23 @@ router.post('/register', (req,res)=>{
 //@desc     used to register an Admin
 //@access   PUBLIC
 router.post('/login', (req,res) => {
+
+    //----- Validation  -----
+    const {errors, isValid} = validateLoginInput(req.body);
+    if(!isValid){
+        return res.status(400).json(errors)
+    }
+    //-----             -----
+
+
     const email = req.body.email;
     const password = req.body.password;
 
         //find user by email
     User.findOne({email: email}).then(user => {
         if(!user){
-            return res.status(404).json({email: 'User not found'})
+            errors.email = 'User not found';
+            return res.status(404).json(errors)
         }
         //check pw : user.password ==> hashed pw in db
         bcrypt.compare(password, user.password)
@@ -104,7 +121,8 @@ router.post('/login', (req,res) => {
                     });
                 }
                 else{
-                    return res.status(400).json({password: 'Password incorrect'});
+                    errors.password = 'Password incorrect';
+                    return res.status(400).json(errors);
                 }
             })
 
