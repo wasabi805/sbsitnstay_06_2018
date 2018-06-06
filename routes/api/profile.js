@@ -62,17 +62,14 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
     }
 
     if(req.body.dogName){
-        //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
         profileFields.dogName = req.body.dogName;
     }
 
     if(req.body.bread){
-        //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
         profileFields.bread = req.body.bread;
     }
 
     if(req.body.age){
-        //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
         profileFields.age = req.body.age;
     }
 
@@ -87,7 +84,18 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
             }
             //create a profile
             else{
-
+                //1st, check if handle exists
+                Profile.findOne({handle: profileFields.handle})
+                    .then(profile=>{
+                        //if handle matches, send error and let user know they can't use that name
+                        if(profile){
+                            errors.handle = 'That Handle already exists';
+                            res.status(400).json(errors);
+                        }
+                    })
+                //Save Profile
+                new Profile(profileFields).save()
+                    .then(profile=> res.json(profile));
             }
         })
 
