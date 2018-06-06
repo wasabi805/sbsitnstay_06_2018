@@ -2,9 +2,12 @@ const Validator = require('validator');
 const isEmpty = require('./is-empty');
 
 
+
 module.exports = function validateProfileInput(data) {
 
+
     let errors = {};
+
 
     //set to string so it can fail custom validation func
     data.handle = !isEmpty(data.handle) ? data.handle : '';
@@ -14,7 +17,7 @@ module.exports = function validateProfileInput(data) {
         errors.handle = "Handle needs to be between 2 and 40 characters";
     }
 
-    if(!Validator.isEmpty(data.handle)){
+    if(Validator.isEmpty(data.handle)){
         errors.handle = "Please enter a handle you would like to use for your profile";
     }
 

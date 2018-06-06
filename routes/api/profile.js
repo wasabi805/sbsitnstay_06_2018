@@ -53,6 +53,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
 //IMPORTANT! recall upon login success we received a token: that token inserted the user into req.user
     // req.user.id
 
+    console.log(req.body);
     //-----     Check Validation    -----
     const {errors, isValid} = validateProfileInput(req.body);
     if(!isValid){

@@ -28,9 +28,25 @@ const ProfileSchema = new Schema({
     },
 
     //for Admins only
-    clients: {
-        type: [],
-    },
+    clients: [
+        {
+            clientName :{
+                type: String
+            },
+
+            clientPhone : {
+                type: Number
+            },
+
+            clientEmail : {
+                type: String
+            },
+
+            clientDogName : {
+                type: String
+            }
+        }
+    ],
 
 });
 
