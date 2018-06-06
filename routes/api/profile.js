@@ -61,6 +61,36 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
         profileFields.handle = req.body.handle;
     }
 
+    if(req.body.dogName){
+        //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
+        profileFields.dogName = req.body.dogName;
+    }
+
+    if(req.body.bread){
+        //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
+        profileFields.bread = req.body.bread;
+    }
+
+    if(req.body.age){
+        //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
+        profileFields.age = req.body.age;
+    }
+
+    Profile.findOne({user: req.user.id})
+        .then(profile =>{
+            //check if profile exists: if so, then update NOT create another new one
+            if(profile){
+                Profile.findOneAndUpdate({user: req.user.id}, {$set: profileFields}, {new: true})
+                    .then(profile =>
+                        res.json(profile)
+                    );
+            }
+            //create a profile
+            else{
+
+            }
+        })
+
 });
 
 

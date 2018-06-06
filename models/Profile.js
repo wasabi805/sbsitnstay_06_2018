@@ -15,39 +15,23 @@ const ProfileSchema = new Schema({
         max: 40
     },
 
+    dogName: {
+        type: String
+    },
+
+    bread: {
+        type: String
+    },
+
+    age: {
+        type: Number
+    },
+
+    //for Admins only
     clients: {
-        type: [
-            {
-                firstName: {
-                    type: String
-                },
+        type: [],
+    },
 
-                lastName:{
-                    type: String
-                },
-
-                email:{
-                    type: String
-                },
-
-                phone: {
-                    type: String
-                },
-
-                dogName: {
-                    type: String
-                },
-
-                bread: {
-                    type: String
-                },
-
-                age: {
-                    type: Number
-                },
-            }
-        ],
-    }
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
