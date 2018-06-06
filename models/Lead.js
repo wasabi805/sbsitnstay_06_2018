@@ -4,37 +4,49 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const LeadSchema = new Schema({
-    firstName :{
-        type: String,
-        required: true
+
+    user :{
+        type: Schema.Types.ObjectId,
+        ref: 'users'
     },
 
-    lastName : {
-        type: String,
-        required: true
-    },
+    client : [
+        {
+            firstName :{
+                type: String,
+                required: true
+            },
 
-    email: {
-        type: String,
-        required: true
-    },
+            lastName : {
+                type: String,
+                required: true
+            },
 
-    phone: {
-        type: String,
-        required: true
-    },
+            email: {
+                type: String,
+                required: true
+            },
 
-    dogName:{
-        type: String,
-    },
+            phone: {
+                type: String,
+                required: true
+            },
+        }
+    ],
 
-    bread:{
-        type: String,
-    },
+    dog: [{
+        dogName:{
+            type: String,
+        },
 
-    age:{
-       type: Number,
-    },
+        bread:{
+            type: String,
+        },
+
+        age:{
+            type: Number,
+        },
+    }],
 
     commentsOrQuestions:{
         type: String
@@ -47,4 +59,4 @@ const LeadSchema = new Schema({
 
 });
 
-module.exports = User = mongoose.model('leads', LeadSchema);
+module.exports = Lead = mongoose.model('leads', LeadSchema);

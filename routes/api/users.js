@@ -24,11 +24,24 @@ router.get('/test', (req,res)=>res.json({msg: ' /routes/api/users/test is workin
 //@access   PUBLIC
 
 router.post('/register', (req,res)=>{
+    //Load Input Validation
+    const validateRegisterInput = require('../../validation/register');
+
+    //destruc the return obj from the validateRegisterInput imported from above : pass in req.body to validate form
+    const {errors, isValid} = validateRegisterInput(req.body);
+
+    //check for errors : if errors isValid will == false : errors obj will contain the error
+    if(!isValid){
+        return res.status(400).json(errors)
+    }
 
     User.findOne({email: req.body.email})
         .then(user => {
             if(user){
-                return res.status(400).json({email: "Email already exists"});
+
+                errors.email =  "Email already exists";
+
+                return res.status(400).json(errors);
             }
             else{
 
