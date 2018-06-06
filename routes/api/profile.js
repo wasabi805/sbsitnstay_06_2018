@@ -28,7 +28,13 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
 
     const errors = {};
 
-    Profile.findOne({user: req.user.id}).then(profile => {
+    Profile.findOne({user: req.user.id})
+        .populate({
+            model: 'users',
+            path: 'user',
+            select: ['firstName', 'lastName']
+        })
+        .then(profile => {
         //check to see if a profile was sent back with the callback
         if(!profile){
             errors.noprofile = 'There is no profile for this user';
