@@ -35,14 +35,7 @@ const UserSchema = new Schema({
         default: Date.now
     },
 
-    admin:[
-        {
-            user:{
-                type:Schema.Types.ObjectId,
-                ref: 'users'
-            },
-        }
-    ]
+
 
 });
 

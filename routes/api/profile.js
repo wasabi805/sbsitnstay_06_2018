@@ -156,6 +156,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
     const profileFields = {};
     profileFields.user = req.user.id;
 
+
     if(req.body.handle){
         //checks if the data was actually sent from the form: if true add the handle from post to profileFields {}
         profileFields.handle = req.body.handle;
@@ -171,6 +172,10 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
 
     if(req.body.age){
         profileFields.age = req.body.age;
+    }
+
+    if(req.body.admin){
+        profileFields.admin = req.body.admin;
     }
 
     Profile.findOne({user: req.user.id})
@@ -217,7 +222,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
 
 //NOTE: same approach to adding likes to an ARRAY
 //will probably use unshift()
-router.get('/admin', (req,res)=>{
+router.get('/users/admin/addClient', (req,res)=>{
 
     const {errors}={};
 
@@ -225,7 +230,7 @@ router.get('/admin', (req,res)=>{
         .populate({
             model: 'users',
             path: 'user',
-            select: ['firstName', 'lastName','email', 'phone', 'admin']
+            select: ['firstName', 'lastName','email', 'phone']
         })
         .then(profiles => {
 
@@ -240,7 +245,33 @@ router.get('/admin', (req,res)=>{
 
 });
 
+//  -----   @prefix routes/api/profile/admin/ -----
 
+//@route    GET api/profile/admin
+//@desc     Allows Admin to find single account by user_id
+//@access   Private
+
+
+router.post('/users/admin/addClient/:id', passport.authenticate('jwt', {session: false}), (req,res)=>{
+
+    Profile.findOne({user: req.user.id}).then((profile)=> {
+
+        Profile.findById(req.params.id)
+
+            .then(addClient => {
+                if(addClient.admin.filter(add => add.user.toString() === req.user.id).length > 0){
+                    return res.status(400).json({alreadyAdded: 'This client already belongs to ...' })
+                }
+                //Add logged in user id to the admin array of another user
+
+                addClient.admin.unshift({user: req.user.id});
+
+                addClient.save().then(add => res.json(add))
+            })
+
+        })
+
+});
 
 
 

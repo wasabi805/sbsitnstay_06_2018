@@ -27,6 +27,15 @@ const ProfileSchema = new Schema({
         type: Number
     },
 
+    admin: [
+        {
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'users'
+            }
+        }
+    ],
+
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
