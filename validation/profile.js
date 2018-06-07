@@ -5,9 +5,7 @@ const isEmpty = require('./is-empty');
 
 module.exports = function validateProfileInput(data) {
 
-
     let errors = {};
-
 
     //set to string so it can fail custom validation func
     data.handle = !isEmpty(data.handle) ? data.handle : '';

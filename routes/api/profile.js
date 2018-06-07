@@ -136,7 +136,7 @@ router.get('/user/:user_id', (req,res)=>{
 //  -----   @prefix routes/api/profile -----
 
 //@route    POST api/profile
-//@desc     Create a user profile
+//@desc     Create a user profile. UPDATE user profile
 //@access   PRIVATE
 
 router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
@@ -165,8 +165,8 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
         profileFields.dogName = req.body.dogName;
     }
 
-    if(req.body.bread){
-        profileFields.bread = req.body.bread;
+    if(req.body.breed){
+        profileFields.breed = req.body.breed;
     }
 
     if(req.body.age){
@@ -198,6 +198,45 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req,res)=>{
                     .then(profile=> res.json(profile));
             }
         })
+
+});
+
+//  -----   @prefix routes/api/profile -----
+
+//@route    POST api/profile/handle/:handle
+//@desc     Retrieve user profile by handle
+//@access   PUBLIC
+
+
+
+//  -----   @prefix routes/api/profile -----
+
+//@route    GET api/profile/admin
+//@desc     Retrieve ALL user profiles for ADMINS
+//@access   PUBLIC
+
+//NOTE: same approach to adding likes to an ARRAY
+//will probably use unshift()
+router.get('/admin', (req,res)=>{
+
+    const {errors}={};
+
+    Profile.find()
+        .populate({
+            model: 'users',
+            path: 'user',
+            select: ['firstName', 'lastName','email', 'phone', 'admin']
+        })
+        .then(profiles => {
+
+            if(!profiles){
+                errors.noprofile = 'There are no profiles';
+                return res.status(404).json(errors)
+            }
+            res.json(profiles)
+        })
+        .catch();
+
 
 });
 
