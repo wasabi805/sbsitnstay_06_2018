@@ -19,34 +19,13 @@ const ProfileSchema = new Schema({
         type: String
     },
 
-    bread: {
+    breed: {
         type: String
     },
 
     age: {
         type: Number
     },
-
-    //for Admins only
-    clients: [
-        {
-            clientName :{
-                type: String
-            },
-
-            clientPhone : {
-                type: Number
-            },
-
-            clientEmail : {
-                type: String
-            },
-
-            clientDogName : {
-                type: String
-            }
-        }
-    ],
 
 });
 

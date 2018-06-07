@@ -1,16 +1,17 @@
 // https://expressjs.com/en/api.html
-
+// https://stackoverflow.com/a/40727391/7857134
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const app = express();
-
 //For routing
 const users = require('./routes/api/users');
 const siteArea = require('./routes/api/site-area');
 const profile = require('./routes/api/profile');
+const posts = require('./routes/api/posts');
+
+const app = express();
 
 //DB config
 const db = require('./config/keys').mongoURI;
@@ -34,6 +35,7 @@ require('./config/passport')(passport);
 app.use('/api/users', users);
 app.use('/api/site-area', siteArea);
 app.use('/api/profile', profile);
+app.use('/api/posts', posts);
 
 
 const port = process.env.PORT || 5000;
