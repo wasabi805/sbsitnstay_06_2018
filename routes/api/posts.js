@@ -11,6 +11,22 @@ const validatePostInput = require('../../validation/post');
 //test route
 router.get('/test', (req,res)=> res.json({msg: 'Post Works'}));
 
+
+//  -----   @prefix routes/api/posts -----
+
+//@route    GET api/posts/
+//@desc     Retrieve ALL Posts
+//@access   PUBLIC //TODO make this private later
+
+
+router.get('/', (req,res)=>{
+    Post.find()
+        .sort({date: -1})
+        .then(posts=>res.json(posts))
+        .catch(err=> res.status(404)).json({nopostsfound: 'No posts found'})
+});
+
+
 //  -----   @prefix routes/api/posts -----
 
 //@route    POST api/posts/test
@@ -38,12 +54,22 @@ router.post('/', passport.authenticate('jwt', {session : false}), (req,res)=>{
 
 });
 
+//  -----   @prefix routes/api/posts -----
 
-// router.post('/', (req,res)=> {
-//
-//     console.log(req.body);
-//     res.json({msg: 'test'})
-// });
+//@route    GET api/posts/:id
+//@desc     Retrieve a SINGLE POST by post id
+//@access   PUBLIC //TODO make this private later
+
+
+router.get('/:id', (req,res)=>{
+    Post.findById(req.params.id)
+        .then(post=>res.json(post))
+        .catch(err=> res.status(404)
+            .json({nopostfound: 'No post found: (by post id)'}))
+});
+
+
+
 
 
 
