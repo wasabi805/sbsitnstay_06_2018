@@ -23,13 +23,10 @@ const PostSchema = new Schema({
 
     firstName: {
         type: String,
-        required: true,
-
     },
 
     lastName: {
         type: String,
-        required: true,
     },
 
     date:{

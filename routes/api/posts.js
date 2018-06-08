@@ -92,4 +92,42 @@ router.delete('/:id', passport.authenticate('jwt', {session: false}), (req,res)=
     })
 });
 
+//  -----   @prefix routes/api/posts -----
+
+//@route    POST api/posts/comment/:id      <-- Note: The ':id' refs the post id
+//@desc     Add COMMENT to a Post
+//@access   PRIVATE
+
+
+router.post('/comment/:id', passport.authenticate('jwt', {session: false}), (req,res)=>{
+
+    //-----     Validation      -----
+    const {errors, isValid} = validatePostInput(req.body);
+    if(!isValid){
+        return res.status(400).json(errors)
+    }
+    //-----
+
+    Post.findById(req.params.id)
+        .then(post=>{
+            //create a new comment obj to insert
+            const newComment = {
+                text: req.body.text,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                avatar: req.body.avatar,
+                user: req.user.id
+            };
+
+            //Add to comments array
+            post.comments.unshift(newComment);
+
+            //save
+            post.save().then(post=>res.json(post))
+
+        }).catch(err=> res.status(404).json({nopostfound: 'No post found'}))
+});
+
+
+
 module.exports = router;
