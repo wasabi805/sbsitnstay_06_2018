@@ -128,6 +128,36 @@ router.post('/comment/:id', passport.authenticate('jwt', {session: false}), (req
         }).catch(err=> res.status(404).json({nopostfound: 'No post found'}))
 });
 
+//  -----   @prefix routes/api/posts -----
+
+//@route    DELETE api/posts/comment/:id/:comment_id      <-- Note: The ':id' refs the post id
+//@desc     REMOVE a COMMENT from a Post
+//@access   PRIVATE
+
+
+router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', {session: false}), (req,res)=>{
+
+
+    Post.findById(req.params.id)
+        .then(post=>{
+            //check to see if the comment exists : if comment_id in db matches URL param comment_id...
+            if(post.comments.filter(
+                comment => comment._id.toString() === req.params.comment_id).length === 0){ //if true, (length == 0) there's no comment in the array
+                return res.status(404).json({nocommentfound: "Comment doesn't exist"})
+            }
+
+            //get remove index
+            const removeIndex = post.comments.map(item=> item._id.toString())
+                .indexOf(req.params.comment_id);
+
+            //splice
+            post.comments.splice(removeIndex,1);
+
+            //save
+            post.save().then((post)=>res.json(post))
+
+        }).catch(err=> res.status(404).json({nopostfound: 'No post found'}))
+});
 
 
 module.exports = router;
