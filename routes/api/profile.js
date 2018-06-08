@@ -245,12 +245,11 @@ router.get('/users/admin/addClient', (req,res)=>{
 
 });
 
-//  -----   @prefix routes/api/profile/admin/ -----
+//  -----   @prefix routes/api/profile/ -----
 
-//@route    GET api/profile/admin
+//@route    POST api/profile/users/admin/addClient/:id
 //@desc     Allows Admin to find single account by user_id
 //@access   Private
-
 
 router.post('/users/admin/addClient/:id', passport.authenticate('jwt', {session: false}), (req,res)=>{
 
@@ -267,9 +266,42 @@ router.post('/users/admin/addClient/:id', passport.authenticate('jwt', {session:
                 addClient.admin.unshift({user: req.user.id});
 
                 addClient.save().then(add => res.json(add))
-            })
+
+            }).catch(err=> res.status(404).json({profilenotfound : "No Profile by this user id was found"}))
 
         })
+
+});
+
+//  -----   @prefix routes/api/profile/ -----
+
+//@route    POST api/profile/users/admin/removeClient/:id
+//@desc     REMOVE Admin from client profile
+//@access   Private
+
+router.post('/users/admin/removeClient/:id', passport.authenticate('jwt', {session: false}), (req,res)=>{
+
+    Profile.findOne({user: req.user.id}).then((profile)=> {
+
+        Profile.findById(req.params.id)
+
+            .then(addClient => {
+                //checks to see if logged in admin is already in the client admin array
+                if(addClient.admin.filter(add => add.user.toString() === req.user.id).length === 0){
+                    return res.status(400).json({notYetAdded: 'This Client is available' })
+                }
+                //Get the index to remove
+                const removeIndex = addClient.admin.map(item => item.user.toString()).indexOf(req.user.id); //<--this is the admin to remove
+
+                // //Splice out now
+                addClient.admin.splice(removeIndex, 1);
+                //
+                // //Save
+                addClient.save().then(addClient =>res.json({addClient}) );
+
+            }).catch(err=> res.status(404).json({profilenotfound : "No Profile by this user id was found"}))
+
+    })
 
 });
 
