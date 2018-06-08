@@ -4,6 +4,7 @@
   "description": "site used to collect contact data for potential clients for sbsitnstay",
   "main": "server.js",
   "scripts": {
+
     "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",

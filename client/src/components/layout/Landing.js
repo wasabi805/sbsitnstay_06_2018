@@ -4,6 +4,8 @@ import Section from './Section'
 import Elements from './Elements';
 import Footer from './Footer'
 
+require("../../assets/css/App.css");
+
 class Landing  extends Component{
     render(){
         return(
