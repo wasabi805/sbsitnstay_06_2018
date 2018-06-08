@@ -14,6 +14,6 @@
     "eject": "react-scripts eject"
   },
 
-  "proxy" : "http://localhost:5000" // <--- This is what allows React to talk to the back end: will use axios to make req
-
+  "proxy" : "http://localhost:5000"
 }
+// "proxy" : This is what allows React to talk to the back end: will use axios to make req
