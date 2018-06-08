@@ -4,11 +4,11 @@
   "description": "site used to collect contact data for potential clients for sbsitnstay",
   "main": "server.js",
   "scripts": {
-    "client-install" : "npm install --prefix client", // <-- with the prefix flag, it's the same as cd client && npm install
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm start --prefix client",            // <-- give the option to just run the client server
-    "dev": "concurrently \"npm run server\" \"npm run client\"" //runs both servers localhost:5000 && localhost:3000
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Tim Ocampo",
   "license": "MIT",
