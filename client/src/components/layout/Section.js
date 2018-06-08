@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class Article extends Component{
+class Section extends Component{
     render(){
         return(
            //Main
@@ -9,7 +9,7 @@ class Article extends Component{
                 {/*Intro*/}
                 <section id="intro">
                     <h2 className="major">Intro</h2>
-                    <span className="image main"><img src="images/pic01.jpg" alt="" /></span>
+                    <span className="image main"><img src=".././img/pic01.jpg" alt="" /></span>
 
                     <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue.
                         Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus
@@ -68,10 +68,9 @@ class Article extends Component{
                     </ul>
                 </section>
 
-
             </div>
         )
     }
 };
 
-export default Article
+export default Section

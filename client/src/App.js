@@ -3,7 +3,7 @@ import Header from './components/layout/Header';
 
 import Landing from './components/layout/Landing';
 
-import './css/App.css';
+import './assets/css/App.css';
 
 class App extends Component {
   render() {
