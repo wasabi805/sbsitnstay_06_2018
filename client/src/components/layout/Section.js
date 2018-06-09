@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
 
+import pic01 from "../../img/pic01.jpg"
+import pic02 from "../../img/pic02.jpg"
+import pic03 from "../../img/pic03.jpg"
+// require("../../assets/css/App.css");
+
 class Section extends Component{
     render(){
         return(
@@ -9,7 +14,7 @@ class Section extends Component{
                 {/*Intro*/}
                 <section id="intro">
                     <h2 className="major">Intro</h2>
-                    <span className="image main"><img src=".././img/pic01.jpg" alt="" /></span>
+                    <span className="image main"><img src={pic01} alt="" /></span>
 
                     <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue.
                         Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus
@@ -27,7 +32,7 @@ class Section extends Component{
                 {/*Work*/}
                 <section id="work">
                     <h2 className="major">Work</h2>
-                    <span className="image main"><img src="images/pic02.jpg" alt="" /></span>
+                    <span className="image main"><img src={pic02} alt="" /></span>
                     <p>Adipiscing magna sed dolor elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices.</p>
                     <p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet feugiat tempus.</p>
                 </section>
@@ -35,7 +40,7 @@ class Section extends Component{
                 {/*<!-- About -->*/}
                 <section id="about">
                     <h2 className="major">About</h2>
-                    <span className="image main"><img src="images/pic03.jpg" alt="" /></span>
+                    <span className="image main"><img src={pic03} alt="" /></span>
                     <p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
                 </section>
 
@@ -44,15 +49,15 @@ class Section extends Component{
                     <h2 className="major">Contact</h2>
                     <form method="post" action="/">
                         <div className="field half first">
-                            <label for="name">Name</label>
+                            <label htmlFor="name">Name</label>
                             <input type="text" name="name" id="name" />
                         </div>
                         <div className="field half">
-                            <label for="email">Email</label>
+                            <label htmlFor="email">Email</label>
                             <input type="text" name="email" id="email" />
                         </div>
                         <div className="field">
-                            <label for="message">Message</label>
+                            <label htmlFor="message">Message</label>
                             <textarea name="message" id="message" rows="4"></textarea>
                         </div>
                         <ul className="actions">
